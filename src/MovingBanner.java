@@ -55,12 +55,7 @@ public class MovingBanner extends Application{
 		      @Override
 		      public void run() {
 		        double progress = 0;
-		        while(true) {		
-					String str = info.getText();
-					String first = str.substring(0,1);
-					str = str.substring(1);
-					String result = str.concat(first);
-					info.setText(result);
+		        while(true) {
 		          try {
 		            Thread.sleep(300);
 		          } catch (InterruptedException e) {
@@ -72,6 +67,9 @@ public class MovingBanner extends Application{
 		          Platform.runLater(new Runnable() {
 		            @Override
 		            public void run() {
+		              String str = info.getText();
+		              String first = str.substring(0,1);
+		              String result = str.substring(1) + first;
 		              info.setText(result);		            
 		              }
 		          });
