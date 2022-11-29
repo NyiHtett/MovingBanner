@@ -7,7 +7,9 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -26,13 +28,39 @@ public class MovingBanner extends Application{
 		launch(args);
 	}
 	@Override
-	public void start(Stage primaryStage) {
-		
+	public void start(Stage primaryStage) {		
 		info = new Text(200,55,"Hello world ");
 		info.setFont(new Font("Cursive", 26));
 		Rectangle rect = new Rectangle(0,0,500,100);
 		rect.setFill(Color.ANTIQUEWHITE);
 		Pane pane = new Pane(rect,info);
+		
+		Label color = new Label("Select color");
+		ComboBox<String> colorComboBox = new ComboBox<>();
+		colorComboBox.getItems().addAll("red","green","blue","brown","purple");
+		colorComboBox.setOnAction(event->{
+			String colorResult = colorComboBox.getValue();
+			switch(colorResult) {
+			case "red":
+				info.setFill(Color.RED);
+				break;
+			case "green":
+				info.setFill(Color.GREEN);
+				break;
+			case "blue":
+				info.setFill(Color.BLUE);
+				break;
+			case "brown":
+				info.setFill(Color.BROWN);
+				break;
+			case "purple":
+				info.setFill(Color.PURPLE);
+				break;
+			default:
+				info.setFill(Color.BLACK);
+			}						
+		});
+		
 		Label content = new Label("content");
 		input = new TextField();
 		HBox inputHbox = new HBox(10,content, input);
@@ -45,8 +73,18 @@ public class MovingBanner extends Application{
 		HBox buttonHbox = new HBox(10,okay, exit);
         buttonHbox.setAlignment(Pos.CENTER);
         buttonHbox.setPadding(new Insets(10));
+        
+        Label listView = new Label("Select font size");
+        ListView<String> fontSizeList = new ListView<>();
+		fontSizeList.setPrefHeight(150);
+		fontSizeList.getItems().addAll("20","23","26","30","33","36");
+		fontSizeList.getSelectionModel().selectedItemProperty().addListener(event->{
+			int size = Integer.parseInt(fontSizeList.getSelectionModel().getSelectedItem());
+			info.setFont(new Font("Cursive",size));
+		});
+			
 		
-		VBox vbox = new VBox(10,pane,inputHbox,buttonHbox);
+		VBox vbox = new VBox(10,pane,color,colorComboBox,inputHbox,buttonHbox,listView,fontSizeList);
 		vbox.setPadding(new Insets(10));
 		Scene scene = new Scene(vbox);
 		primaryStage.setScene(scene);
